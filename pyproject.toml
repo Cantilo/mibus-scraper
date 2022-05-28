@@ -8,6 +8,7 @@ authors = ["Agustín Cantilo-Paz Vega"]
 python = "^3.10"
 Scrapy = "^2.6.1"
 chompjs = "^1.1.6"
+tzdata = "^2022.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
