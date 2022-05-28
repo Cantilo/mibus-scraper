@@ -38,6 +38,11 @@ FEEDS = {
         "encoding": "utf8",
         "item_classes": ["mibus.items.Parada"],
     },
+    "bus_arrivals.json": {
+        "format": "json",
+        "encoding": "utf8",
+        "item_classes": ["mibus.items.BusArrival"],
+    },
 }
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16

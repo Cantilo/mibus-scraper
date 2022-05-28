@@ -31,3 +31,16 @@ class Ruta:
 class Recorrido:
     route_id: str
     ruta: List[Tuple[float, float]]
+
+
+@dataclass
+class BusArrival:
+    scraped_time: int
+    stop_id: str
+    ruta_id: str
+    first_vehicle_id: int
+    first_sn: int
+    first_travel_time: int
+    second_vehicle_id: int
+    second_sn: int
+    second_travel_time: int
