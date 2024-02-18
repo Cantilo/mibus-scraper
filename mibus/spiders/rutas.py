@@ -39,7 +39,10 @@ class RutasSpider(scrapy.Spider):
         # Need to get the bus route
         # Need to get the coordinates as well as the stop info
         code_lines = response.text.splitlines()
-        for i, line in enumerate(code_lines):
+        enum_lines = enumerate(response.text.splitlines())
+        maplegend = re.compile(r"<div.class=.legend-horario.>([^<]+)")
+        parada_index = 1
+        for i, line in enum_lines:
             if "var circle_marker_" in line:
                 coords = literal_eval(code_lines[i + 1].strip()[:-1])
 
@@ -48,8 +51,18 @@ class RutasSpider(scrapy.Spider):
                 r2 = response.replace(body=content)
                 parada, id_code = r2.xpath(".//div/text()").getall()
 
-                yield Parada(parada_nomb=parada, id_code=id_code, coordinates=coords)
+                yield Parada(
+                    parada_nomb=parada,
+                    id_code=id_code,
+                    coordinates=coords,
+                    route_id=route_id,
+                    parada_index=parada_index,
+                )
+                parada_index += 1
             elif "ant_path_" in line and "antPath" in line:
                 ruta = code_lines[i + 1][:-1].strip()
 
-                yield Recorrido(route_id, literal_eval(ruta))
+            elif horario_legend := maplegend.match(line.strip()):
+                horario = horario_legend[1]
+
+        yield Recorrido(route_id, literal_eval(ruta), horario)

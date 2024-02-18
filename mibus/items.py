@@ -19,6 +19,8 @@ class Parada:
     coordinates: Tuple[float, float]
     parada_nomb: str
     id_code: str
+    route_id: str
+    parada_index: int
 
 
 @dataclass
@@ -31,6 +33,7 @@ class Ruta:
 class Recorrido:
     route_id: str
     ruta: List[Tuple[float, float]]
+    horario: str
 
 
 @dataclass
