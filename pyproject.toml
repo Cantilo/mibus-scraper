@@ -6,7 +6,7 @@ authors = ["Agustín Cantilo-Paz Vega"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Scrapy = "^2.6.2"
+Scrapy = "^2.11.1"
 chompjs = "^1.1.6"
 tzdata = "^2022.1"
 
