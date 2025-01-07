@@ -8,6 +8,8 @@ from scrapy.http import TextResponse
 
 from mibus.items import Recorrido, Parada
 
+ENCODED_PARADA_OFFSET = 10
+
 
 class RutasSpider(scrapy.Spider):
     name = "rutas"
@@ -46,7 +48,9 @@ class RutasSpider(scrapy.Spider):
             if "var circle_marker_" in line:
                 coords = literal_eval(code_lines[i + 1].strip()[:-1])
 
-                encoded_content = self.info_parada.search(code_lines[i + 9])
+                encoded_content = self.info_parada.search(
+                    code_lines[i + ENCODED_PARADA_OFFSET]
+                )
                 content = base64.decodebytes(encoded_content[1].encode("utf8"))
                 r2 = response.replace(body=content)
                 parada, id_code = r2.xpath(".//div/text()").getall()
