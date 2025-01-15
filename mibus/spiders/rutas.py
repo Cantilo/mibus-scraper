@@ -33,11 +33,27 @@ class RutasSpider(scrapy.Spider):
             route_id = route_info["route_id"]
             url = f"https://www.mibus.com.pa/wp-content/uploads/web-maps/htmls/{route_id}.html"
             yield response.follow(
-                url, self.parse_page_for_route, cb_kwargs={"route_id": route_id}
+                url,
+                self.parse_page_for_route,
+                cb_kwargs={
+                    "route_id": route_id,
+                    "route_name": route_info["route_long_name"],
+                    "axis": route_info["axis"],
+                    "route_type": route_info["type"],
+                    "color": route_info["route_color"],
+                },
             )
             yield route_info
 
-    def parse_page_for_route(self, response: TextResponse, route_id: str):
+    def parse_page_for_route(
+        self,
+        response: TextResponse,
+        route_id: str,
+        route_name: str,
+        axis: str,
+        route_type: str,
+        color: str,
+    ):
         # Need to get the bus route
         # Need to get the coordinates as well as the stop info
         code_lines = response.text.splitlines()
@@ -69,4 +85,12 @@ class RutasSpider(scrapy.Spider):
             elif horario_legend := maplegend.match(line.strip()):
                 horario = horario_legend[1]
 
-        yield Recorrido(route_id, literal_eval(ruta), horario)
+        yield Recorrido(
+            route_id,
+            literal_eval(ruta),
+            horario,
+            route_type,
+            color,
+            axis,
+            route_name,
+        )

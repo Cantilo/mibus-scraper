@@ -34,6 +34,10 @@ class Recorrido:
     route_id: str
     ruta: List[Tuple[float, float]]
     horario: str
+    route_type: str
+    route_color: str
+    route_axis: str
+    name: str
 
 
 @dataclass
