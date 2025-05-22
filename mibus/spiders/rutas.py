@@ -3,7 +3,7 @@ import re
 import base64
 import chompjs
 import scrapy
-from scrapy.linkextractors import LinkExtractor
+from scrapy.linkextractors import LinkExtractor, IGNORED_EXTENSIONS
 from scrapy.http import TextResponse
 
 from mibus.items import Recorrido, Parada
@@ -16,7 +16,11 @@ class RutasSpider(scrapy.Spider):
     allowed_domains = ["mibus.com.pa"]
     start_urls = ["https://www.mibus.com.pa/red-de-rutas/"]
 
-    routes_js = LinkExtractor(r"routes.js", tags="script", attrs="src")
+    denied_extensions = IGNORED_EXTENSIONS.copy()
+    denied_extensions.remove("js")
+    routes_js = LinkExtractor(
+        r"routes.js", tags="script", attrs="src", deny_extensions=denied_extensions
+    )
     re.compile(r"var (circle_marker_\w+) = L.circleMarker\(\n\s+[\[\]\d\.,\-\s]+")
     info_parada = re.compile(r"base64,([^\"]*)")
 
