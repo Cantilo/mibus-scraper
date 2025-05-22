@@ -59,6 +59,7 @@ class RutasSpider(scrapy.Spider):
         code_lines = response.text.splitlines()
         enum_lines = enumerate(response.text.splitlines())
         maplegend = re.compile(r"<div.class=.legend-horario.>([^<]+)")
+        horario = ""
         parada_index = 1
         for i, line in enum_lines:
             if "var circle_marker_" in line:
@@ -82,8 +83,9 @@ class RutasSpider(scrapy.Spider):
             elif "ant_path_" in line and "antPath" in line:
                 ruta = code_lines[i + 1][:-1].strip()
 
-            elif horario_legend := maplegend.match(line.strip()):
-                horario = horario_legend[1]
+            elif maplegend.match(line.strip()):
+                horario_legend = maplegend.findall(line)
+                horario = "\n".join(horario_legend)
 
         yield Recorrido(
             route_id,
