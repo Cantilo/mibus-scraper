@@ -1,8 +1,14 @@
-[tool.poetry]
+[project]
 name = "mibus-scraper"
 version = "0.1.0"
 description = "Scrapes bus route data from the MiBus website"
-authors = ["Agustín Cantilo-Paz Vega"]
+authors = [{ name = "Agustín Cantilo-Paz Vega", email = "cantpazveg@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[tool.poetry]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -10,7 +16,7 @@ chompjs = "^1.1.6"
 tzdata = "^2022.1"
 scrapy = "^2.11.2"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^24.3.0"
 pylint = "^2.13.8"
 commitizen = "^2.24.0"
